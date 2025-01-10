@@ -29,7 +29,7 @@
 
 let promError = false;
 function init(){
-    
+    fetchDataJson();
 }
 
 
@@ -57,5 +57,6 @@ async function usePromise(){
 
 
 async function fetchDataJson() {
-    let response = await fetch()
+    let response = await fetch("./script/database.json");
+    console.log(response);
 }
