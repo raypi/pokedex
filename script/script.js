@@ -27,17 +27,35 @@
 // Header mit: Logo, Titel, Suchleiste (man soll mindestens 3 Buchstaben eingeben bevor gesucht werden kann, wenn diese Buchstaben Teil des Namens eines Pokemons sind, sollten diese Pokemon angezeigt werden. Es sollte eine begrenzte Anzahl an Pokemon mit den Suchkriterien angezeigt werden, z.B. 10 stück)
 // Footer (optional)
 
+let promError = false;
 function init(){
-    usePromise();
+    
 }
 
 
 function getPromise(){
-    return "testtext"
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if(promError){
+                reject("hat nicht geklappt");
+            } else {
+                resolve("hat gegefunst"); // kann auch ein Objekt sein was die DB zurück gegeben hat
+            }
+        }, 2000);
+    });
 }
 
 
-function usePromise(){
-    let prom = getPromise();
-    console.log(prom)
+async function usePromise(){
+    try {
+        await getPromise();
+    } catch (error) {
+        console.error(error);
+    }
+    console.log("ende")
+}
+
+
+async function fetchDataJson() {
+    let response = await fetch()
 }

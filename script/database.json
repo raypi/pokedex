@@ -1,0 +1,37 @@
+[
+    {
+      "name": "Pazifischer Ozean",
+      "area": "168,723,000 km²",
+      "maxDepth": "10,924 m",
+      "location": "Zwischen Amerika, Asien und Australien",
+      "description": "Der größte Ozean der Welt, der etwa ein Drittel der Erdoberfläche bedeckt."
+    },
+    {
+      "name": "Atlantischer Ozean",
+      "area": "85,133,000 km²",
+      "maxDepth": "8,376 m",
+      "location": "Zwischen Amerika, Europa und Afrika",
+      "description": "Bekannt für seine Rolle in der Geschichte der Seefahrt und des Handels."
+    },
+    {
+      "name": "Indischer Ozean",
+      "area": "70,560,000 km²",
+      "maxDepth": "7,258 m",
+      "location": "Zwischen Afrika, Asien, Australien und dem Südozean",
+      "description": "Ein warmer Ozean, der viele tropische Inseln umgibt."
+    },
+    {
+      "name": "Arktischer Ozean",
+      "area": "15,558,000 km²",
+      "maxDepth": "5,450 m",
+      "location": "Rund um den Nordpol",
+      "description": "Der kleinste und flachste Ozean, der oft mit Meereis bedeckt ist."
+    },
+    {
+      "name": "Südlicher Ozean",
+      "area": "21,960,000 km²",
+      "maxDepth": "7,236 m",
+      "location": "Um die Antarktis herum",
+      "description": "Der jüngste anerkannte Ozean, bekannt für seine einzigartige Tierwelt."
+    }
+]  
