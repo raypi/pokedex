@@ -26,3 +26,18 @@
 // Dokumenten Titel
 // Header mit: Logo, Titel, Suchleiste (man soll mindestens 3 Buchstaben eingeben bevor gesucht werden kann, wenn diese Buchstaben Teil des Namens eines Pokemons sind, sollten diese Pokemon angezeigt werden. Es sollte eine begrenzte Anzahl an Pokemon mit den Suchkriterien angezeigt werden, z.B. 10 stück)
 // Footer (optional)
+
+function init(){
+    usePromise();
+}
+
+
+function getPromise(){
+    return "testtext"
+}
+
+
+function usePromise(){
+    let prom = getPromise();
+    console.log(prom)
+}
