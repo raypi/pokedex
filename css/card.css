@@ -1,5 +1,4 @@
-div.card-smal {
-    
+.card-smal {
     color: var(--textWhite);
     height: 400px;
     width: 280px;
@@ -55,34 +54,29 @@ div.card-smal {
 
 
 .big-card-container {
-    background: white;
+    background: var(--backgroundColorGray);
     border-radius: 10px;
-    padding: 20px;
-    width: 60%;
-    max-width: 500px;
+    padding: var(--paddingSmall);
+    width: 300px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.card-big {
-    /* Stil für die große Karte */
-    text-align: center;
-}
 
 .card-img-big {
-    width: 100%;
-    height: auto;
+    height: 200px;
+    width: auto;
 }
 
-/* Für kleine und große Karten */
-.card-smal {
-    width: 100px;
-    height: 150px;
-}
 
 .card-big {
-    width: 200px;
-    height: 300px;
+    width: auto;
+    height: 400px;
+    text-align: center;
+    border-radius: var(--borderRadius);
+    color: var(--textWhite);
+    padding: var(--paddingMedium);
+    margin: var(--marginSmall);
 }
 
 .card-header-big {

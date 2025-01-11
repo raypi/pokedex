@@ -1,6 +1,5 @@
 // Aufgaben:
 // *** Große Ansicht: *** 
-// Benutze ein transparentes Overlay, beim Klicken darauf schließt sich die Karte wieder (wie beim Dialog Fenster). Der Hintergrund ist nicht scrollbar in der großen Ansicht.
 // Wie du diese gestaltet und welche du hier alle anzeigen lässt, ist dir überlassen, jedoch sollten hier mindestens gewisse Werte wie z.B. hp/ attack/ defense etc. des Pokemon angezeigt werden, weiteres ist Optional.
 // Es gibt Pfeile oder ähnliches, um zwischen den Karten in der großen Ansicht zu wechseln (wie bei der Fotogalerie).
 //
@@ -135,8 +134,13 @@ function openBigCard(pokeId) {
                                 const typeInfo = pokeDetails.types[i];
                                 typeHtml += `<span class="type-icon">${typeInfo.type.name}</span> `;
                             }
-                            return typeHtml.trim(); // Entfernt das letzte Leerzeichen
+                            return typeHtml.trim();
                         })()}
+                        <div class="poke-stats">
+                            <div>HP: ${pokeDetails.stats[0].base_stat}</div>
+                            <div>Attack: ${pokeDetails.stats[1].base_stat}</div>
+                            <div>Defense: ${pokeDetails.stats[2].base_stat}</div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -148,6 +152,7 @@ function openBigCard(pokeId) {
         })
         .catch(error => console.error("Fehler beim Abrufen der Details der großen Karte:", error));
 }
+
 
 // schliesst die große Karte bei Overlay und Button
 function closeBigCard(event) {
