@@ -28,8 +28,9 @@
 // Footer (optional)
 
 let promError = false;
+
 function init(){
-    fetchDataJson();
+    showFruits();
 }
 
 
@@ -58,5 +59,50 @@ async function usePromise(){
 
 async function fetchDataJson() {
     let response = await fetch("./script/database.json");
-    console.log(response);
+    let responseAsJason = await response.json();
+    console.log(responseAsJason);
 }
+
+// Anzeigen von Apfel
+async function fetchDataText(fruitName) {
+    let response = await fetch('https://www.fruityvice.com/api/fruit/${fruitName}');
+    let responseAsJson = await response.json();
+    console.log(fruitName);
+    // document.getElementById("content").innerHTML = responseAsJson;
+}
+
+function showFruits(){
+    fetchDataText("Apple");
+    fetchDataText("Guava");
+}
+
+// // fatch Data Test fruitivice
+// async function fetchDataText() {
+//     let response = await fetch('https://restcountries.com/v3.1/all');
+//     // let response = await fetch('https://www.fruityvice.com/api/fruit/all', {
+//     //     mode: 'no-cors'
+//     // });
+//     let responseAsJson = await response.json();
+//     console.log(responseAsJson);
+//     // document.getElementById("content").innerHTML = responseAsJson;
+// }
+
+// fatchData für TXT datei im Root verzeichniss
+// async function fetchDataText() {
+//     let response = await fetch('test.txt');
+//     let responseAsText = await response.text();
+//     document.getElementById("content").innerHTML = responseAsText;
+// }
+
+
+// fatechDataText inkl. fehlerbehandlung
+// async function fetchDataText() {
+//     try {
+//         let response = await fetch('test.txt');
+//         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+//         let responseAsText = await response.text();
+//         document.getElementById("content").innerHTML = responseAsText;
+//     } catch (error) {
+//         console.error("Fehler beim Laden der Datei:", error);
+//     }
+// }
