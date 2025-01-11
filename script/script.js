@@ -29,15 +29,18 @@
 
 // let promError = false;
 
+let counterPoke = 0;
+
+
 // ruft die Funtionen auf die ich beim Start bzw. beim laden der Seite benötige
 function init(){
-    renderPokes();
+    renderPokes(counterPoke);
 }
 
 
-// Ruft die Pokes von der API ab
-async function getPokefromApi() {
-    const apiUrl = 'https://pokeapi.co/api/v2/pokemon?limit=20';
+// Ruft die Pokémon von der API ab
+async function getPokefromApi(start = 0, limit = 20) {
+    const apiUrl = `https://pokeapi.co/api/v2/pokemon?offset=${start}&limit=${limit}`;
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
@@ -48,18 +51,16 @@ async function getPokefromApi() {
     }
 }
 
-// bringt die Pokes ins HTML
-async function renderPokes() {
-    const pokes = await getPokefromApi();
-    const cardContainer = document.getElementById('content'); // Korrigierte ID
+
+// Bringt die Pokémon ins HTML
+async function renderPokes(counterPoke) {
+    const pokes = await getPokefromApi(counterPoke);
+    const cardContainer = document.getElementById('content');
 
     if (!cardContainer) {
         console.error('Container mit ID "content" nicht gefunden.');
         return;
     }
-
-    // Sicherstellen, dass der Container vorher leer ist
-    cardContainer.innerHTML = '';
 
     let htmlContent = '';
 
@@ -82,9 +83,14 @@ async function renderPokes() {
                         <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
                     </div>
                     <div class="card-footer-smal">
-                        ${pokeDetails.types
-                            .map(typeInfo => `<span class="type-icon">${typeInfo.type.name}</span>`)
-                            .join(' ')}
+                        ${(() => {
+                            let typeHtml = '';
+                            for (let i = 0; i < pokeDetails.types.length; i++) {
+                                const typeInfo = pokeDetails.types[i];
+                                typeHtml += `<span class="type-icon">${typeInfo.type.name}</span> `;
+                            }
+                            return typeHtml.trim(); // Entfernt das letzte Leerzeichen
+                        })()}
                     </div>
                 </div>
             `;
@@ -92,12 +98,34 @@ async function renderPokes() {
             console.error(`Fehler beim Abrufen der Details für ${poke.name}:`, error);
         }
     }
+    // Füge die Karten in den Container ein
+    cardContainer.innerHTML += htmlContent;
 
-    // Setze das HTML für den Container auf einmal
-    cardContainer.innerHTML = htmlContent;
+    // Button für weitere Pokémon erstellen
+    createLoadMoreButton();
 }
 
 
+// Erstellt oder aktualisiert den "Load More"-Button
+function createLoadMoreButton() {
+    const buttonContainer = document.getElementById('buttonContainer'); // Container für den Button
+    if (!buttonContainer) {
+        console.error('Button-Container nicht gefunden.');
+        return;
+    }
+
+    buttonContainer.innerHTML = ''; // Vorherigen Button entfernen, falls vorhanden
+
+    const loadMoreButton = document.createElement('button');
+    loadMoreButton.textContent = 'Mehr Pokémon laden';
+    loadMoreButton.id = `load-more-${counterPoke}`; // ID mit dem aktuellen Startpunkt
+    loadMoreButton.onclick = () => {
+        counterPoke += 20; // Erhöhe den Startpunkt um 20
+        renderPokes(counterPoke);
+    };
+
+    buttonContainer.appendChild(loadMoreButton);
+}
 
 // function getPromise(){
 //     return new Promise((resolve, reject) => {
