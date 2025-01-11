@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/card.css">
     <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/overlay.css">
     <script src="./script/script.js"></script>
     <script src="./script/database.json"></script>
 </head>
@@ -24,11 +25,17 @@
     <main>
         <section class="main-contend">
             <div id="content" class="content-main">
-                
+                <!-- Hier kommen die Pokémon-Karten rein -->
+            </div>
         </section>
+
         <section>
-            <div id="buttonContainer"></div>
+            <div id="buttonContainer"></div> <!-- Container für den "Load More"-Button -->
         </section>
+
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="spinner"></div>
+        </div>
     </main> 
     <footer>
         <div>2025 by Ray Don</div>

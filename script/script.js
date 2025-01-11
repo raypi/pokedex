@@ -1,11 +1,8 @@
 // Aufgaben
 // *** Hauptbildschirm / kleine Ansicht ***
-// Es soll eine bestimmte Anzahl an Pokemon Karten direkt gerendert werden. Am besten zwischen 20 und 40
-// Unten gibt es einen Button, um weitere 20-40 Pokemon zu laden. (Info: insgesamt gibt es über 1000 Pokemon)
 // Beim laden erscheint ein Loadingscreen (Userfeedback)
 // Der Button zum Nachladen kann während des Ladens nicht erneut angeklickt werden
 // Sichtbar soll auf jeder kleinen Pokemon Karte sein: Name, Typ/en, Bild des Pokemons, Hintergrundfarbe passend zum Typ, ID (optional)
-// Es soll einen Hover-Effekt auf der kleinen Pokemon Karte geben: cursor-pointer,  Pokemon erscheint größer etc. (optional)
 // *** Große Ansicht: *** 
 // Beim Klicken auf die Pokemonkarte soll sich diese in groß öffnen.
 // Benutze ein transparentes Overlay, beim Klicken darauf schließt sich die Karte wieder (wie beim Dialog Fenster). Der Hintergrund ist nicht scrollbar in der großen Ansicht.
@@ -31,14 +28,12 @@
 
 let counterPoke = 0;
 
-
-// ruft die Funtionen auf die ich beim Start bzw. beim laden der Seite benötige
-function init(){
+// Initialisiert die Anwendung
+function init() {
     renderPokes(counterPoke);
 }
 
-
-// Ruft die Pokémon von der API ab
+// Ruft Pokémon von der API ab
 async function getPokefromApi(start = 0, limit = 20) {
     const apiUrl = `https://pokeapi.co/api/v2/pokemon?offset=${start}&limit=${limit}`;
     try {
@@ -51,8 +46,7 @@ async function getPokefromApi(start = 0, limit = 20) {
     }
 }
 
-
-// Bringt die Pokémon ins HTML
+// Bringt Pokémon ins HTML
 async function renderPokes(counterPoke) {
     const pokes = await getPokefromApi(counterPoke);
     const cardContainer = document.getElementById('content');
@@ -73,9 +67,13 @@ async function renderPokes(counterPoke) {
             // Name mit großem Anfangsbuchstaben formatieren
             const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
 
+            // Dynamische Typ-Klassen: Nur der erste Typ wird verwendet
+            const mainType = pokeDetails.types[0].type.name;
+            const typeClass = `type-${mainType}`; // Nur der erste Typ für die Farbe
+
             // HTML für die Pokémon-Karten erstellen
             htmlContent += `
-                <div class="card-smal">
+                <div class="card-smal ${typeClass}">
                     <div class="card-header-smal">
                         #${pokeDetails.id} ${formattedName}
                     </div>
@@ -98,6 +96,7 @@ async function renderPokes(counterPoke) {
             console.error(`Fehler beim Abrufen der Details für ${poke.name}:`, error);
         }
     }
+
     // Füge die Karten in den Container ein
     cardContainer.innerHTML += htmlContent;
 
@@ -119,7 +118,7 @@ function createLoadMoreButton() {
     const loadMoreButton = document.createElement('button');
     loadMoreButton.textContent = 'Mehr Pokémon laden';
     loadMoreButton.id = `load-more-${counterPoke}`; // ID mit dem aktuellen Startpunkt
-    loadMoreButton.className = 'load-button'
+    loadMoreButton.className = 'load-button';
     loadMoreButton.onclick = () => {
         counterPoke += 20; // Erhöhe den Startpunkt um 20
         renderPokes(counterPoke);
@@ -127,6 +126,13 @@ function createLoadMoreButton() {
 
     buttonContainer.appendChild(loadMoreButton);
 }
+
+
+// // Initialisiere beim Laden der Seite
+// window.onload = init;
+
+
+
 
 // function getPromise(){
 //     return new Promise((resolve, reject) => {
