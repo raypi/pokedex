@@ -25,3 +25,18 @@ button {
 .load-button:hover {
     background-color: #2980b9;
 }
+
+
+.red-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.red-button:disabled {
+    background-color: green; /* Graue Farbe für deaktivierten Button */
+    cursor: not-allowed;
+}

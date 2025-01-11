@@ -1,13 +1,10 @@
-// Aufgaben
-// *** Hauptbildschirm / kleine Ansicht ***
-// Beim laden erscheint ein Loadingscreen (Userfeedback)
-// Der Button zum Nachladen kann während des Ladens nicht erneut angeklickt werden
-// Sichtbar soll auf jeder kleinen Pokemon Karte sein: Name, Typ/en, Bild des Pokemons, Hintergrundfarbe passend zum Typ, ID (optional)
+// Aufgaben:
 // *** Große Ansicht: *** 
 // Beim Klicken auf die Pokemonkarte soll sich diese in groß öffnen.
 // Benutze ein transparentes Overlay, beim Klicken darauf schließt sich die Karte wieder (wie beim Dialog Fenster). Der Hintergrund ist nicht scrollbar in der großen Ansicht.
 // Wie du diese gestaltet und welche du hier alle anzeigen lässt, ist dir überlassen, jedoch sollten hier mindestens gewisse Werte wie z.B. hp/ attack/ defense etc. des Pokemon angezeigt werden, weiteres ist Optional.
 // Es gibt Pfeile oder ähnliches, um zwischen den Karten in der großen Ansicht zu wechseln (wie bei der Fotogalerie).
+//
 // *** Code ***
 // Aussagekräftige Namen für Funktionen und Variablen
 // camelCase für die Benennung 
@@ -104,7 +101,6 @@ async function renderPokes(counterPoke) {
     createLoadMoreButton();
 }
 
-
 // Erstellt oder aktualisiert den "Load More"-Button
 function createLoadMoreButton() {
     const buttonContainer = document.getElementById('buttonContainer'); // Container für den Button
@@ -118,91 +114,33 @@ function createLoadMoreButton() {
     const loadMoreButton = document.createElement('button');
     loadMoreButton.textContent = 'Mehr Pokémon laden';
     loadMoreButton.id = `load-more-${counterPoke}`; // ID mit dem aktuellen Startpunkt
-    loadMoreButton.className = 'load-button';
+    loadMoreButton.className = 'load-button'; // Standard Button
     loadMoreButton.onclick = () => {
-        counterPoke += 20; // Erhöhe den Startpunkt um 20
-        renderPokes(counterPoke);
+        // Beim Klick auf "Mehr Pokémon laden" den roten Button anzeigen
+        showRedLoadMoreButton();
     };
 
     buttonContainer.appendChild(loadMoreButton);
 }
 
+// Zeigt den roten Button für 2 Sekunden an
+function showRedLoadMoreButton() {
+    const buttonContainer = document.getElementById('buttonContainer');
+    
+    // Erstelle den roten Button
+    const redButton = document.createElement('button');
+    redButton.textContent = 'Lade die nächsten 20 Pokes';
+    redButton.className = 'load-button red-button'; // Rote Farbe für den Button
+    redButton.disabled = true; // Button deaktivieren während des Wartens
 
-// // Initialisiere beim Laden der Seite
-// window.onload = init;
+    // Button in den Container einfügen
+    buttonContainer.innerHTML = ''; // Vorherigen Button entfernen
+    buttonContainer.appendChild(redButton);
 
-
-
-
-// function getPromise(){
-//     return new Promise((resolve, reject) => {
-//         setTimeout(() => {
-//             if(promError){
-//                 reject("hat nicht geklappt");
-//             } else {
-//                 resolve("hat gegefunst"); // kann auch ein Objekt sein was die DB zurück gegeben hat
-//             }
-//         }, 2000);
-//     });
-// }
-
-
-// async function usePromise(){
-//     try {
-//         await getPromise();
-//     } catch (error) {
-//         console.error(error);
-//     }
-//     console.log("ende")
-// }
-
-
-// async function fetchDataJson() {
-//     let response = await fetch("./script/database.json");
-//     let responseAsJason = await response.json();
-//     console.log(responseAsJason);
-// }
-
-// // Anzeigen von Apfel
-// async function fetchDataText(fruitName) {
-//     let response = await fetch('https://www.fruityvice.com/api/fruit/${fruitName}');
-//     let responseAsJson = await response.json();
-//     console.log(fruitName);
-//     // document.getElementById("content").innerHTML = responseAsJson;
-// }
-
-// function showFruits(){
-//     fetchDataText("Apple");
-//     fetchDataText("Guava");
-// }
-
-// // fatch Data Test fruitivice
-// async function fetchDataText() {
-//     let response = await fetch('https://restcountries.com/v3.1/all');
-//     // let response = await fetch('https://www.fruityvice.com/api/fruit/all', {
-//     //     mode: 'no-cors'
-//     // });
-//     let responseAsJson = await response.json();
-//     console.log(responseAsJson);
-//     // document.getElementById("content").innerHTML = responseAsJson;
-// }
-
-// fatchData für TXT datei im Root verzeichniss
-// async function fetchDataText() {
-//     let response = await fetch('test.txt');
-//     let responseAsText = await response.text();
-//     document.getElementById("content").innerHTML = responseAsText;
-// }
-
-
-// fatechDataText inkl. fehlerbehandlung
-// async function fetchDataText() {
-//     try {
-//         let response = await fetch('test.txt');
-//         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-//         let responseAsText = await response.text();
-//         document.getElementById("content").innerHTML = responseAsText;
-//     } catch (error) {
-//         console.error("Fehler beim Laden der Datei:", error);
-//     }
-// }
+    // Nach 3 Sekunden den Button zurücksetzen und Pokémon laden
+    setTimeout(() => {
+        redButton.disabled = false; // Reaktiviert den Button
+        counterPoke += 20; // Erhöhe den Startpunkt um 20
+        renderPokes(counterPoke);
+    }, 2000); // 3 Sekunden warten
+}
