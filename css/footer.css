@@ -1,0 +1,7 @@
+footer {
+    background-color: var(--backgroundColorOrange);
+    height: var(--footerHeight);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

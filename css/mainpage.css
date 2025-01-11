@@ -1,0 +1,6 @@
+.main-contend {
+    flex: 1;
+    min-height: calc(100vh - var(--footerHeight) - var(--footerHeight) - (4 * var(--paddingMedium)));
+    padding: var(--paddingMedium);
+    background-color: var(--backgroundColorGray);
+}

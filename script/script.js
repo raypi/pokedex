@@ -27,54 +27,54 @@
 // Header mit: Logo, Titel, Suchleiste (man soll mindestens 3 Buchstaben eingeben bevor gesucht werden kann, wenn diese Buchstaben Teil des Namens eines Pokemons sind, sollten diese Pokemon angezeigt werden. Es sollte eine begrenzte Anzahl an Pokemon mit den Suchkriterien angezeigt werden, z.B. 10 stück)
 // Footer (optional)
 
-let promError = false;
+// let promError = false;
 
 function init(){
-    showFruits();
+    console.log("Test");
 }
 
 
-function getPromise(){
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if(promError){
-                reject("hat nicht geklappt");
-            } else {
-                resolve("hat gegefunst"); // kann auch ein Objekt sein was die DB zurück gegeben hat
-            }
-        }, 2000);
-    });
-}
+// function getPromise(){
+//     return new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             if(promError){
+//                 reject("hat nicht geklappt");
+//             } else {
+//                 resolve("hat gegefunst"); // kann auch ein Objekt sein was die DB zurück gegeben hat
+//             }
+//         }, 2000);
+//     });
+// }
 
 
-async function usePromise(){
-    try {
-        await getPromise();
-    } catch (error) {
-        console.error(error);
-    }
-    console.log("ende")
-}
+// async function usePromise(){
+//     try {
+//         await getPromise();
+//     } catch (error) {
+//         console.error(error);
+//     }
+//     console.log("ende")
+// }
 
 
-async function fetchDataJson() {
-    let response = await fetch("./script/database.json");
-    let responseAsJason = await response.json();
-    console.log(responseAsJason);
-}
+// async function fetchDataJson() {
+//     let response = await fetch("./script/database.json");
+//     let responseAsJason = await response.json();
+//     console.log(responseAsJason);
+// }
 
-// Anzeigen von Apfel
-async function fetchDataText(fruitName) {
-    let response = await fetch('https://www.fruityvice.com/api/fruit/${fruitName}');
-    let responseAsJson = await response.json();
-    console.log(fruitName);
-    // document.getElementById("content").innerHTML = responseAsJson;
-}
+// // Anzeigen von Apfel
+// async function fetchDataText(fruitName) {
+//     let response = await fetch('https://www.fruityvice.com/api/fruit/${fruitName}');
+//     let responseAsJson = await response.json();
+//     console.log(fruitName);
+//     // document.getElementById("content").innerHTML = responseAsJson;
+// }
 
-function showFruits(){
-    fetchDataText("Apple");
-    fetchDataText("Guava");
-}
+// function showFruits(){
+//     fetchDataText("Apple");
+//     fetchDataText("Guava");
+// }
 
 // // fatch Data Test fruitivice
 // async function fetchDataText() {
