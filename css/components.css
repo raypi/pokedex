@@ -1,0 +1,15 @@
+button {
+    background-color: var(--buttonGreen);
+    color: var(--textWhite);
+    width: var(--buttonWidth);
+    height: var(--buttonHeight);
+    border-radius: var(--cardRadius);
+    border: none;
+    cursor: pointer;
+}
+
+
+.load-button {
+    margin: var(--marginLarge);
+    width: auto;
+}

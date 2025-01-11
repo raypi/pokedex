@@ -119,6 +119,7 @@ function createLoadMoreButton() {
     const loadMoreButton = document.createElement('button');
     loadMoreButton.textContent = 'Mehr Pokémon laden';
     loadMoreButton.id = `load-more-${counterPoke}`; // ID mit dem aktuellen Startpunkt
+    loadMoreButton.className = 'load-button'
     loadMoreButton.onclick = () => {
         counterPoke += 20; // Erhöhe den Startpunkt um 20
         renderPokes(counterPoke);
