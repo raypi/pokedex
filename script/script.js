@@ -33,6 +33,15 @@ function init(){
     console.log("Test");
 }
 
+function getPokefromApi {
+
+}
+
+
+function renderPokes {
+    
+}
+
 
 // function getPromise(){
 //     return new Promise((resolve, reject) => {

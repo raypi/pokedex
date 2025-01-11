@@ -1,6 +1,7 @@
 :root {
     --backgroundColorOrange: orange;
     --backgroundColorGray: gray;
+    --backgroundColorDarkBlue: rgb(12, 12, 68);
     --buttonGreen: green;
     --textWhite: white;
     --textBlack: black;
@@ -38,23 +39,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}
-
-header {
-    background-color: var(--backgroundColorOrange);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: var(--headerHeight);
-    padding: var(--paddingMedium);
-}
-
-footer {
-    background-color: var(--backgroundColorOrange);
-    height: var(--footerHeight);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 
