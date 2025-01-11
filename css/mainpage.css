@@ -4,3 +4,10 @@
     padding: var(--paddingMedium);
     background-color: var(--backgroundColorGray);
 }
+
+
+.content-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--paddingMedium);
+}

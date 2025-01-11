@@ -1,5 +1,6 @@
 .card-smal {
     background-color: var(--backgroundColorDarkBlue);
+    color: var(--textWhite);
     height: 400px;
     width: 280px;
     border-radius: var(--borderRadius);

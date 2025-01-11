@@ -29,17 +29,72 @@
 
 // let promError = false;
 
+// ruft die Funtionen auf die ich beim Start bzw. beim laden der Seite benötige
 function init(){
-    console.log("Test");
-}
-
-function getPokefromApi {
-
+    renderPokes();
 }
 
 
-function renderPokes {
-    
+// Ruft die Pokes von der API ab
+async function getPokefromApi() {
+    const apiUrl = 'https://pokeapi.co/api/v2/pokemon?limit=20';
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        return data.results; // Gibt eine Liste von Pokémon mit Name und URL zurück
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Daten:', error);
+        return [];
+    }
+}
+
+// bringt die Pokes ins HTML
+async function renderPokes() {
+    const pokes = await getPokefromApi();
+    const cardContainer = document.getElementById('content'); // Korrigierte ID
+
+    // Sicherstellen, dass der Container existiert
+    if (!cardContainer) {
+        console.error('Container mit ID "content" nicht gefunden.');
+        return;
+    }
+
+    cardContainer.innerHTML = ''; // Löscht vorhandenen Inhalt, falls nötig
+
+    for (let i = 0; i < pokes.length; i++) {
+        const poke = pokes[i];
+
+        try {
+            // Hole zusätzliche Details zu jedem Pokémon (z. B. Bild und ID)
+            const pokeDetails = await fetch(poke.url).then(res => res.json());
+
+            // Erstelle das HTML für eine Pokémon-Karte
+            const card = document.createElement('div'); // Verwende ein gültiges HTML-Element
+            card.classList.add('card-smal');
+
+            // Name mit großem Anfangsbuchstaben formatieren
+            const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
+
+            card.innerHTML = `
+                <div class="card-header-smal">
+                    #${pokeDetails.id} ${formattedName}
+                </div>
+                <div class="card-img-smal">
+                    <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}">
+                </div>
+                <div class="card-footer-smal">
+                    ${pokeDetails.types
+                        .map(typeInfo => `<span class="type-icon">${typeInfo.type.name}</span>`)
+                        .join(' ')}
+                </div>
+            `;
+
+            // Füge die Karte dem Container hinzu
+            cardContainer.appendChild(card);
+        } catch (error) {
+            console.error(`Fehler beim Abrufen der Details für ${poke.name}:`, error);
+        }
+    }
 }
 
 
