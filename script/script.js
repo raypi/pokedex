@@ -141,6 +141,11 @@ function openBigCard(pokeId) {
                             <div>Attack: ${pokeDetails.stats[1].base_stat}</div>
                             <div>Defense: ${pokeDetails.stats[2].base_stat}</div>
                         </div>
+                        <div id="bigCardNav">
+                            <div><button class="close-button" onclick="nextPoke">Vorwärt</button></div>
+                            <div>${pokeDetails.id}</div>
+                            <div><button class="close-button" onclick="lastPoke">Rückwerts</button></div>
+                        </div>
                     </div>
                 </div>
             `;
