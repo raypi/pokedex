@@ -78,8 +78,8 @@ async function renderPokes() {
                     <div class="card-header-smal">
                         #${pokeDetails.id} ${formattedName}
                     </div>
-                    <div class="card-img-smal">
-                        <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}">
+                    <div class="card-img-smal-section">
+                        <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
                     </div>
                     <div class="card-footer-smal">
                         ${pokeDetails.types

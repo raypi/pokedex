@@ -4,6 +4,7 @@
     height: 400px;
     width: 280px;
     border-radius: var(--borderRadius);
+    cursor: pointer;
 }
 
 .card-header-smal {
@@ -11,8 +12,15 @@
 }
 
 
-.card-img-smal {
 
+.card-img-smal-section {
+    display: flex;
+    justify-content: center;
+}
+
+.card-img-smal {
+    height: 150px;
+    width: auto;
 }
 
 
