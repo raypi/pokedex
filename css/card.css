@@ -1,5 +1,5 @@
-.card-smal {
-    background-color: var(--backgroundColorDarkBlue);
+div.card-smal {
+    
     color: var(--textWhite);
     height: 400px;
     width: 280px;
@@ -10,7 +10,6 @@
 .card-header-smal {
 
 }
-
 
 
 .card-img-smal-section {
@@ -53,3 +52,35 @@
 .type-dark { background-color: #705848; color: white; }
 .type-steel { background-color: #B8B8D0; color: white; }
 .type-fairy { background-color: #F8A0F0; color: white; }
+
+
+.big-card-container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 60%;
+    max-width: 500px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-big {
+    /* Stil für die große Karte */
+    text-align: center;
+}
+
+.card-img-big {
+    width: 100%;
+    height: auto;
+}
+
+/* Für kleine und große Karten */
+.card-smal {
+    width: 100px;
+    height: 150px;
+}
+
+.card-big {
+    width: 200px;
+    height: 300px;
+}
