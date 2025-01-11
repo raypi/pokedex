@@ -22,8 +22,7 @@
 // let promError = false;
 
 let counterPoke = 0;
-const overlay = document.getElementById('overlay');
-overlay.addEventListener('click', closeBigCard);
+
 
 // Initialisiert die Anwendung
 function init() {
@@ -142,9 +141,9 @@ function openBigCard(pokeId) {
                             <div>Defense: ${pokeDetails.stats[2].base_stat}</div>
                         </div>
                         <div id="bigCardNav">
-                            <div><button class="close-button" onclick="nextPoke">Vorwärt</button></div>
+                            <div><button class="nav-button" onclick="nextPoke(${pokeDetails.id})">Vorwärts</button></div>
                             <div>${pokeDetails.id}</div>
-                            <div><button class="close-button" onclick="lastPoke">Rückwerts</button></div>
+                            <div><button class="nav-button" onclick="lastPoke(${pokeDetails.id})">Rückwärts</button></div>
                         </div>
                     </div>
                 </div>
@@ -159,14 +158,13 @@ function openBigCard(pokeId) {
 }
 
 
-// schliesst die große Karte bei Overlay und Button
+// Schließt die große Karte bei Overlay und Button
 function closeBigCard(event) {
     const overlay = document.getElementById('overlay');
     const bigCardContainer = document.getElementById('big-card-container');
 
-    // Schließe nur, wenn ins Overlay oder den Button geklickt wurde
+    // Schließe nur, wenn ins Overlay oder auf den Schließen-Button geklickt wurde
     if (event.target === overlay || event.target.classList.contains('close-button')) {
-        // Blende die große Karte und das Overlay aus
         overlay.style.display = 'none';
         bigCardContainer.innerHTML = '';
 
@@ -174,6 +172,8 @@ function closeBigCard(event) {
         document.body.style.overflow = 'auto';
     }
 }
+
+
 
 
 
@@ -219,4 +219,28 @@ function showRedLoadMoreButton() {
         counterPoke += 20; // Erhöhe den Startpunkt um 20
         renderPokes(counterPoke);
     }, 2000); // 3 Sekunden warten
+}
+
+function nextPoke(currentPokeId) {
+    let nextId = currentPokeId + 1;
+
+    // Prüfen, ob wir über das Limit hinaus sind
+    if (nextId > counterPoke) {
+        nextId = counterPoke - 1; // Springe zum ersten geladenen Pokémon
+    }
+
+    // Öffne die große Karte für das nächste Pokémon
+    openBigCard(nextId);
+}
+
+function lastPoke(currentPokeId) {
+    let prevId = currentPokeId - 1;
+
+    // Prüfen, ob wir unter das Limit hinausgehen
+    if (prevId < 1) {
+        prevId = counterPoke; // Springe zum letzten geladenen Pokémon
+    }
+
+    // Öffne die große Karte für das vorherige Pokémon
+    openBigCard(prevId);
 }
