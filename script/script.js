@@ -53,49 +53,50 @@ async function renderPokes() {
     const pokes = await getPokefromApi();
     const cardContainer = document.getElementById('content'); // Korrigierte ID
 
-    // Sicherstellen, dass der Container existiert
     if (!cardContainer) {
         console.error('Container mit ID "content" nicht gefunden.');
         return;
     }
 
-    cardContainer.innerHTML = ''; // Löscht vorhandenen Inhalt, falls nötig
+    // Sicherstellen, dass der Container vorher leer ist
+    cardContainer.innerHTML = '';
+
+    let htmlContent = '';
 
     for (let i = 0; i < pokes.length; i++) {
         const poke = pokes[i];
 
         try {
-            // Hole zusätzliche Details zu jedem Pokémon (z. B. Bild und ID)
             const pokeDetails = await fetch(poke.url).then(res => res.json());
-
-            // Erstelle das HTML für eine Pokémon-Karte
-            const card = document.createElement('div'); // Verwende ein gültiges HTML-Element
-            card.classList.add('card-smal');
 
             // Name mit großem Anfangsbuchstaben formatieren
             const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
 
-            card.innerHTML = `
-                <div class="card-header-smal">
-                    #${pokeDetails.id} ${formattedName}
-                </div>
-                <div class="card-img-smal">
-                    <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}">
-                </div>
-                <div class="card-footer-smal">
-                    ${pokeDetails.types
-                        .map(typeInfo => `<span class="type-icon">${typeInfo.type.name}</span>`)
-                        .join(' ')}
+            // HTML für die Pokémon-Karten erstellen
+            htmlContent += `
+                <div class="card-smal">
+                    <div class="card-header-smal">
+                        #${pokeDetails.id} ${formattedName}
+                    </div>
+                    <div class="card-img-smal">
+                        <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}">
+                    </div>
+                    <div class="card-footer-smal">
+                        ${pokeDetails.types
+                            .map(typeInfo => `<span class="type-icon">${typeInfo.type.name}</span>`)
+                            .join(' ')}
+                    </div>
                 </div>
             `;
-
-            // Füge die Karte dem Container hinzu
-            cardContainer.appendChild(card);
         } catch (error) {
             console.error(`Fehler beim Abrufen der Details für ${poke.name}:`, error);
         }
     }
+
+    // Setze das HTML für den Container auf einmal
+    cardContainer.innerHTML = htmlContent;
 }
+
 
 
 // function getPromise(){
