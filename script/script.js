@@ -1,4 +1,7 @@
 // Aufgaben:
+// Layout optimieren
+// Sound hinzufügen
+// 
 // *** Code ***
 // Aussagekräftige Namen für Funktionen und Variablen
 // camelCase für die Benennung 
@@ -170,10 +173,10 @@ function renderBigCard(pokeDetails, bigCardContainer, overlay) {
                     <div>Attack: ${pokeDetails.stats[1].base_stat}</div>
                     <div>Defense: ${pokeDetails.stats[2].base_stat}</div>
                 </div>
-                <div id="bigCardNav">
-                    <div><button class="nav-button" onclick="nextPoke(${pokeDetails.id})">Vorwärts</button></div>
-                    <div>${pokeDetails.id}</div>
+                <div id="bigCardNav" class="big-Card-Nav">
                     <div><button class="nav-button" onclick="lastPoke(${pokeDetails.id})">Rückwärts</button></div>
+                    <div>${pokeDetails.id}</div>
+                    <div><button class="nav-button" onclick="nextPoke(${pokeDetails.id})">Vorwärts</button></div>
                 </div>
             </div>
         </div>

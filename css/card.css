@@ -1,12 +1,37 @@
+.type-normal { background-color: #A8A878; color: white; }
+.type-fire { background-color: #F08030; color: white; }
+.type-water { background-color: #6890F0; color: white; }
+.type-grass { background-color: #78C850; color: white; }
+.type-electric { background-color: #F8D030; color: white; }
+.type-ice { background-color: #98D8D8; color: white; }
+.type-fighting { background-color: #C03028; color: white; }
+.type-poison { background-color: #A040A0; color: white; }
+.type-ground { background-color: #E0C068; color: white; }
+.type-flying { background-color: #A890F0; color: white; }
+.type-psychic { background-color: #F85888; color: white; }
+.type-bug { background-color: #A8B820; color: white; }
+.type-rock { background-color: #B8A038; color: white; }
+.type-ghost { background-color: #705898; color: white; }
+.type-dragon { background-color: #7038F8; color: white; }
+.type-dark { background-color: #705848; color: white; }
+.type-steel { background-color: #B8B8D0; color: white; }
+.type-fairy { background-color: #F8A0F0; color: white; }
+
+
 .card-smal {
     color: var(--textWhite);
-    height: 400px;
-    width: 280px;
+    height: 220px;
+    width: 250px;
     border-radius: var(--borderRadius);
     cursor: pointer;
+    border-radius: var(--borderRadius);
+    padding: var(--paddingMedium);
+    margin: var(--marginSmall);
 }
 
 .card-header-smal {
+    display: flex;
+    justify-content: space-between;
 
 }
 
@@ -32,32 +57,13 @@
     border-radius: var(--borderRadiusSmal);
 }
 
-/* Spezifische Typ-Klassen mit verschiedenen Hintergrundfarben */
-.type-normal { background-color: #A8A878; color: white; }
-.type-fire { background-color: #F08030; color: white; }
-.type-water { background-color: #6890F0; color: white; }
-.type-grass { background-color: #78C850; color: white; }
-.type-electric { background-color: #F8D030; color: white; }
-.type-ice { background-color: #98D8D8; color: white; }
-.type-fighting { background-color: #C03028; color: white; }
-.type-poison { background-color: #A040A0; color: white; }
-.type-ground { background-color: #E0C068; color: white; }
-.type-flying { background-color: #A890F0; color: white; }
-.type-psychic { background-color: #F85888; color: white; }
-.type-bug { background-color: #A8B820; color: white; }
-.type-rock { background-color: #B8A038; color: white; }
-.type-ghost { background-color: #705898; color: white; }
-.type-dragon { background-color: #7038F8; color: white; }
-.type-dark { background-color: #705848; color: white; }
-.type-steel { background-color: #B8B8D0; color: white; }
-.type-fairy { background-color: #F8A0F0; color: white; }
-
 
 .big-card-container {
     background: var(--backgroundColorGray);
     border-radius: 10px;
     padding: var(--paddingSmall);
-    width: 300px;
+    width: 310px;
+    height: auto;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -71,15 +77,30 @@
 
 .card-big {
     width: auto;
-    height: 400px;
+    flex-grow: 1;
     text-align: center;
     border-radius: var(--borderRadius);
     color: var(--textWhite);
     padding: var(--paddingMedium);
     margin: var(--marginSmall);
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
 }
 
 .card-header-big {
     display: flex;
     justify-content: space-between;
+}
+
+
+.big-Card-Nav {
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+
+.poke-stats{
+    margin: var(--marginLarge);
 }

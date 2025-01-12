@@ -53,3 +53,9 @@ button {
 .close-button:hover {
     color: #f00; /* Beispiel für Hover-Farbe */
 }
+
+.type-icon {
+    background-color: var(--backgroundColorGray);
+    border: none;
+    border-radius:  var(--cardRadius);
+}
