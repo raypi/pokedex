@@ -222,32 +222,37 @@ function createLoadMoreButton() {
     loadMoreButton.className = 'load-button'; // Standard Button
     loadMoreButton.onclick = () => {
         // Beim Klick auf "Mehr Pokémon laden" den roten Button anzeigen
-        showRedLoadMoreButton();
+        showLoadingButton();
     };
 
     buttonContainer.appendChild(loadMoreButton);
 }
 
-// Zeigt den roten Button für 2 Sekunden an
-function showRedLoadMoreButton() {
+// Zeigt den farbigen Button für 2 Sekunden an
+function showLoadingButton() {
     const buttonContainer = document.getElementById('buttonContainer');
-    
-    // Erstelle den roten Button
-    const redButton = document.createElement('button');
-    redButton.textContent = 'Lade die nächsten 20 Pokes';
-    redButton.className = 'load-button red-button'; // Rote Farbe für den Button
-    redButton.disabled = true; // Button deaktivieren während des Wartens
+    const redButton = createButton(buttonContainer);
+    setTimeout(() => delayButton(redButton, counterPoke), 2000);
+}
 
-    // Button in den Container einfügen
-    buttonContainer.innerHTML = ''; // Vorherigen Button entfernen
-    buttonContainer.appendChild(redButton);
+// Hilfsfunktion: Erstellt und fügt einen Button ein
+function createButton(container) {
+    container.innerHTML = '';
+    const button = document.createElement('button');
+    button.textContent = 'Lade die nächsten 20 Pokes';
+    button.className = 'load-button red-button'; 
+    button.disabled = true;
+    container.appendChild(button);
+    return button;
+}
 
-    // Nach 3 Sekunden den Button zurücksetzen und Pokémon laden
-    setTimeout(() => {
-        redButton.disabled = false; // Reaktiviert den Button
-        counterPoke += 20; // Erhöhe den Startpunkt um 20
-        renderPokes(counterPoke);
-    }, 2000);
+
+
+// Funktion für die dauer der Anzeige
+function delayButton(button, counter) {
+    button.disabled = false;
+    counterPoke = counter + 20;
+    renderPokes(counterPoke);
 }
 
 
