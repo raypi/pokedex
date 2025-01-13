@@ -16,7 +16,7 @@
 </head>
 <body onload="init()">
     <header>
-        <img src="./assets/img/Logo.png" alt="Logo der Pokedex Seite" >
+        <img src="./assets/img/Logo.png" alt="Logo der Pokedex Seite" class="header-logo" >
         <div><h1>Pokedex</h1></div>
         <div class="search-Area">
             <input type="text" name="user" id="searchPoke" placeholder="Poke suchen">
@@ -26,22 +26,18 @@
     <main>
         <section class="main-contend">
             <div id="content" class="content-main">
-                <!-- Hier kommen die Pokémon-Karten rein -->
             </div>
         </section>
 
         <section>
-            <div id="buttonContainer"></div> <!-- Container für den "Load More"-Button -->
+            <div id="buttonContainer"></div>
         </section>
         <section>
             <div id="overlay" class="overlay" onclick="closeBigCard(event)">
                 <div id="big-card-container" class="big-card-container">
-                    <!-- Die große Karte wird hier dynamisch geladen -->
+                    
                 </div>
             </div>
-        <!-- <div id="loading-overlay" class="loading-overlay">
-            <div class="spinner"></div>
-        </div> -->
         </section>
     </main> 
     <footer>
