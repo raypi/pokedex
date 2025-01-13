@@ -247,35 +247,41 @@ function showRedLoadMoreButton() {
         redButton.disabled = false; // Reaktiviert den Button
         counterPoke += 20; // Erhöhe den Startpunkt um 20
         renderPokes(counterPoke);
-    }, 2000); // 3 Sekunden warten
+    }, 2000);
 }
 
 
 
 function nextPoke(currentId) {
     const currentIndex = loadedPokes.findIndex(poke => poke.id === currentId);
-    let nextIndex = (currentIndex + 1) % loadedPokes.length; // Nächstes Pokémon, zyklisch durchgehen
+    let nextIndex = (currentIndex + 1) % loadedPokes.length;
     openBigCard(loadedPokes[nextIndex].id);
 }
 
 function lastPoke(currentId) {
     const currentIndex = loadedPokes.findIndex(poke => poke.id === currentId);
-    let prevIndex = (currentIndex - 1 + loadedPokes.length) % loadedPokes.length; // Vorheriges Pokémon, zyklisch durchgehen
+    let prevIndex = (currentIndex - 1 + loadedPokes.length) % loadedPokes.length;
     openBigCard(loadedPokes[prevIndex].id);
 }
 
 
 async function searchPoke() {
     const inputField = document.getElementById('searchPoke');
-    const query = inputField.value.trim().toLowerCase(); // Leerzeichen entfernen und in Kleinbuchstaben umwandeln
-    const resultContainer = document.getElementById('content'); // Annahme: Ergebnisse werden hier gerendert
+    const query = inputField.value.trim().toLowerCase(); 
+    const resultContainer = document.getElementById('content');
+    const buttonContainer = document.getElementById('buttonContainer'); // Button-Container
+
+    // Entferne den Inhalt des Button-Containers
+    if (buttonContainer) {
+        buttonContainer.innerHTML = "";
+    }
 
     if (query.length < 3 || /\d/.test(query)) {
         resultContainer.innerHTML = `<p>Gib bitte mindestens 3 Buchstaben ein.</p>`;
         return;
     }
 
-    const apiUrl = `https://pokeapi.co/api/v2/pokemon?limit=1281`; // Vollständige Liste aller Pokémon
+    const apiUrl = `https://pokeapi.co/api/v2/pokemon?limit=1281`;
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
@@ -286,10 +292,9 @@ async function searchPoke() {
             return;
         }
 
-        const limitedMatches = matches.slice(0, 20); // Maximal 20 Treffer anzeigen
+        const limitedMatches = matches.slice(0, 20);
         let htmlContent = '';
 
-        // Clear the loadedPokes array and populate it with search results
         loadedPokes = [];
 
         for (const match of limitedMatches) {
@@ -338,4 +343,5 @@ async function searchPoke() {
         resultContainer.innerHTML = `<p>Ein Fehler ist aufgetreten. Bitte versuche es später erneut.</p>`;
     }
 }
+
 
