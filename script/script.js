@@ -1,4 +1,5 @@
 // Aufgaben:
+// Zusatz:
 // Layout optimieren
 // Sound hinzufügen
 // 
@@ -261,4 +262,69 @@ function lastPoke(currentId) {
     const currentIndex = loadedPokes.findIndex(poke => poke.id === currentId);
     let prevIndex = (currentIndex - 1 + loadedPokes.length) % loadedPokes.length; // Vorheriges Pokémon, zyklisch durchgehen
     openBigCard(loadedPokes[prevIndex].id);
+}
+
+
+async function searchPoke() {
+    const inputField = document.getElementById('searchPoke');
+    const query = inputField.value.trim().toLowerCase(); // Leerzeichen entfernen und in Kleinbuchstaben umwandeln
+    const resultContainer = document.getElementById('content'); // Annahme: Ergebnisse werden hier gerendert
+
+    if (query.length < 3 || /\d/.test(query)) {
+        resultContainer.innerHTML = `<p>Gib bitte mindestens 3 Buchstaben ein.</p>`;
+        return;
+    }
+
+    const apiUrl = `https://pokeapi.co/api/v2/pokemon?limit=1281`; // Vollständige Liste aller Pokémon
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const matches = data.results.filter(poke => poke.name.includes(query));
+
+        if (matches.length === 0) {
+            resultContainer.innerHTML = `<p>Keine Pokes mit deinen Kriterien gefunden.</p>`;
+            return;
+        }
+
+        const limitedMatches = matches.slice(0, 20); // Maximal 20 Treffer anzeigen
+        let htmlContent = '';
+
+        for (const match of limitedMatches) {
+            try {
+                const pokeDetails = await fetch(match.url).then(res => res.json());
+
+                const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
+                const mainType = pokeDetails.types[0].type.name;
+                const typeClass = `type-${mainType}`;
+
+                htmlContent += `
+                    <div class="card-smal ${typeClass}" onclick="openBigCard(${pokeDetails.id})" id="poke-${pokeDetails.id}">
+                        <div class="card-header-smal">
+                            #${pokeDetails.id} ${formattedName}
+                        </div>
+                        <div class="card-img-smal-section">
+                            <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
+                        </div>
+                        <div class="card-footer-smal">
+                            ${(() => {
+                                let typeHtml = '';
+                                for (let i = 0; i < pokeDetails.types.length; i++) {
+                                    const typeInfo = pokeDetails.types[i];
+                                    typeHtml += `<span class="type-icon">${typeInfo.type.name}</span> `;
+                                }
+                                return typeHtml.trim();
+                            })()}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error(`Fehler beim Abrufen der Details für ${match.name}:`, error);
+            }
+        }
+
+        resultContainer.innerHTML = htmlContent;
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Daten:', error);
+        resultContainer.innerHTML = `<p>Ein Fehler ist aufgetreten. Bitte versuche es später erneut.</p>`;
+    }
 }
