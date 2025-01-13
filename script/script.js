@@ -289,9 +289,19 @@ async function searchPoke() {
         const limitedMatches = matches.slice(0, 20); // Maximal 20 Treffer anzeigen
         let htmlContent = '';
 
+        // Clear the loadedPokes array and populate it with search results
+        loadedPokes = [];
+
         for (const match of limitedMatches) {
             try {
                 const pokeDetails = await fetch(match.url).then(res => res.json());
+
+                // Füge Pokémon zu loadedPokes hinzu
+                loadedPokes.push({
+                    id: pokeDetails.id,
+                    name: pokeDetails.name,
+                    details: pokeDetails,
+                });
 
                 const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
                 const mainType = pokeDetails.types[0].type.name;
@@ -328,3 +338,4 @@ async function searchPoke() {
         resultContainer.innerHTML = `<p>Ein Fehler ist aufgetreten. Bitte versuche es später erneut.</p>`;
     }
 }
+
