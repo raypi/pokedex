@@ -11,3 +11,8 @@ header {
 .search-Area{
     display: flex;
 }
+
+.heeder-img {
+    width: 100px;
+    height: 50px;
+}
