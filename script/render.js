@@ -55,3 +55,25 @@ function getBigCardHTML(pokeDetails) {
         </div>
     `;
 }
+
+
+
+function getSearchPokeHTML(pokeDetails) {
+    const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
+    const mainType = pokeDetails.types[0].type.name;
+    const typeClass = `type-${mainType}`;
+
+    return `
+        <div class="card-smal ${typeClass}" onclick="openBigCard(${pokeDetails.id})" id="poke-${pokeDetails.id}">
+            <div class="card-header-smal">
+                #${pokeDetails.id} ${formattedName}
+            </div>
+            <div class="card-img-smal-section">
+                <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
+            </div>
+            <div class="card-footer-smal">
+                ${pokeDetails.types.map(typeInfo => `<span class="type-icon">${typeInfo.type.name}</span>`).join(' ')}
+            </div>
+        </div>
+    `;
+}
