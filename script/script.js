@@ -5,6 +5,7 @@ let AUDIO_BING = new Audio('assets/audio/bing.mp3');
 let AUDIO_KEYPRESS = new Audio('assets/audio/keypress.mp3');
 let AUDIO_TRASH = new Audio('assets/audio/trash.mp3');
 let AUDIO_SWIPE = new Audio('assets/audio/slider.mp3');
+let AUDIO_LOAD = new Audio('assets/audio/load.mp3');
 
 
 
@@ -141,6 +142,7 @@ function loadMoreBtn(counterPoke, buttonContainer) {
     loadMoreButton.className = 'load-button';
     loadMoreButton.onclick = () => {
         showLoadingButton();
+        AUDIO_LOAD.play();
     };
     buttonContainer.appendChild(loadMoreButton);
 }
