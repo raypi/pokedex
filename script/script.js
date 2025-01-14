@@ -1,7 +1,7 @@
 // Aufgaben:
 // Zusatz:
 // Layout optimieren
-// Sound hinzufügen
+// Sound hinzufügen (next, close, open)
 // 
 // *** Code ***
 // Aussagekräftige Namen für Funktionen und Variablen
@@ -306,7 +306,6 @@ async function searchPoke() {
             try {
                 const pokeDetails = await fetch(match.url).then(res => res.json());
 
-                // Füge Pokémon zu loadedPokes hinzu
                 loadedPokes.push({
                     id: pokeDetails.id,
                     name: pokeDetails.name,
@@ -350,3 +349,123 @@ async function searchPoke() {
 }
 
 
+// async function searchPoke() {
+//     const query = getSearchQuery();
+//     const resultContainer = document.getElementById('content');
+//     const buttonContainer = document.getElementById('buttonContainer');
+
+//     clearContainer(buttonContainer);
+//     if (!isValidQuery(query)) {
+//         displayMessage(resultContainer, 'Gib bitte mindestens 3 Buchstaben ein.');
+//         return;
+//     }
+
+//     const apiUrl = `https://pokeapi.co/api/v2/pokemon?limit=1281`;
+//     try {
+//         const data = await fetchPokeData(apiUrl);
+//         const matches = filterMatches(data, query);
+
+//         if (matches.length === 0) {
+//             displayMessage(resultContainer, 'Keine Pokes mit deinen Kriterien gefunden.');
+//             return;
+//         }
+
+//         await displayMatches(matches, resultContainer);
+//     } catch (error) {
+//         handleError(resultContainer, error);
+//     }
+// }
+
+
+
+// function getSearchQuery() {
+//     const inputField = document.getElementById('searchPoke');
+//     return inputField.value.trim().toLowerCase();
+// }
+
+
+
+// function isValidQuery(query) {
+//     return query.length >= 3 && !/\d/.test(query);
+// }
+
+
+// function clearContainer(container) {
+//     if (container) container.innerHTML = '';
+// }
+
+
+
+// function displayMessage(container, message) {
+//     container.innerHTML = `<p>${message}</p>`;
+// }
+
+
+// async function fetchPokeData(apiUrl) {
+//     const response = await fetch(apiUrl);
+//     return response.json();
+// }
+
+
+
+// function filterMatches(data, query) {
+//     return data.results.filter(poke => poke.name.includes(query));
+// }
+
+
+
+// async function displayMatches(matches, container) {
+//     const limitedMatches = matches.slice(0, 20);
+//     const loadedPokes = [];
+//     let htmlContent = '';
+
+//     for (const match of limitedMatches) {
+//         const pokeDetails = await fetchPokeDetails(match.url);
+//         htmlContent += createCard(pokeDetails);
+//         loadedPokes.push(formatPokeDetails(pokeDetails));
+//     }
+
+//     container.innerHTML = htmlContent;
+// }
+
+
+
+// async function fetchPokeDetails(url) {
+//     return fetch(url).then(res => res.json());
+// }
+
+
+// function createCard(pokeDetails) {
+//     const formattedName = formatName(pokeDetails.name);
+//     const typeClass = `type-${pokeDetails.types[0].type.name}`;
+//     const typeHtml = getTypeIcons(pokeDetails.types);
+
+//     return `
+//         <div class="card-smal ${typeClass}" onclick="openBigCard(${pokeDetails.id})" id="poke-${pokeDetails.id}">
+//             <div class="card-header-smal">#${pokeDetails.id} ${formattedName}</div>
+//             <div class="card-img-smal-section">
+//                 <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
+//             </div>
+//             <div class="card-footer-smal">${typeHtml}</div>
+//         </div>
+//     `;
+// }
+
+
+
+// function formatName(name) {
+//     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+// }
+
+
+
+// function getTypeIcons(types) {
+//     return types.map(type => `<span class="type-icon">${type.type.name}</span>`).join(' ');
+// }
+
+
+
+// function handleError(container, error) {
+//     console.error('Fehler beim Abrufen der Daten:', error);
+//     displayMessage(container, 'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+// }
