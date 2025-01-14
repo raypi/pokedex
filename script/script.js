@@ -95,16 +95,14 @@ function openBigCard(pokeId) {
     if (pokeDetails) {
         renderBigCard(pokeDetails, bigCardContainer, overlay);
     } else {
-        fetchRenderforBigCard(pokeId, bigCardContainer, overlay);
+        fetchRenderBigCard(pokeId, bigCardContainer, overlay);
     }
 }
 
 
-async function fetchRenderforBigCard(pokeId, bigCardContainer, overlay) {
+async function fetchRenderBigCard(pokeId, bigCardContainer, overlay) {
     try {
         const pokeDetails = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`).then(res => res.json());
-
-        // Hinzufügen zu loadedPokes, falls nicht vorhanden
         if (!loadedPokes.find(poke => poke.id === pokeId)) {
             loadedPokes.push({
                 id: pokeDetails.id,
@@ -112,8 +110,6 @@ async function fetchRenderforBigCard(pokeId, bigCardContainer, overlay) {
                 details: pokeDetails
             });
         }
-
-        // Große Karte rendern
         renderBigCard(pokeDetails, bigCardContainer, overlay);
     } catch (error) {
         console.error("Fehler beim Abrufen der Details der großen Karte:", error);
@@ -123,45 +119,9 @@ async function fetchRenderforBigCard(pokeId, bigCardContainer, overlay) {
 
 // Hilfsfunktion für das Rendern der großen Karte
 function renderBigCard(pokeDetails, bigCardContainer, overlay) {
-    const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
-    const mainType = pokeDetails.types[0].type.name;
-    const typeClass = `type-${mainType}`;
-
-    let bigCardHtml = `
-        <div class="card-big ${typeClass}">
-            <div class="card-header-big">
-                <div>#${pokeDetails.id} ${formattedName}</div>
-                <div><button class="close-button" onclick="closeBigCard(event)">✖</button></div>
-            </div>
-            <div class="card-img-big-section">
-                <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-big">
-            </div>
-            <div class="card-footer-big">
-                ${(() => {
-                    let typeHtml = '';
-                    for (let i = 0; i < pokeDetails.types.length; i++) {
-                        const typeInfo = pokeDetails.types[i];
-                        typeHtml += `<span class="type-icon">${typeInfo.type.name}</span> `;
-                    }
-                    return typeHtml.trim();
-                })()}
-                <div class="poke-stats">
-                    <div>HP: ${pokeDetails.stats[0].base_stat}</div>
-                    <div>Attack: ${pokeDetails.stats[1].base_stat}</div>
-                    <div>Defense: ${pokeDetails.stats[2].base_stat}</div>
-                </div>
-                <div id="bigCardNav" class="big-Card-Nav">
-                    <div><button class="nav-button" onclick="lastPoke(${pokeDetails.id})">Rückwärts</button></div>
-                    <div>${pokeDetails.id}</div>
-                    <div><button class="nav-button" onclick="nextPoke(${pokeDetails.id})">Vorwärts</button></div>
-                </div>
-            </div>
-        </div>
-    `;
+    const bigCardHtml = getBigCardHTML(pokeDetails);
     bigCardContainer.innerHTML = bigCardHtml;
-    overlay.style.display = 'flex'; // Zeige das Overlay und die große Karte an
-
-    // Verhindere das Scrollen des Hintergrunds
+    overlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
 
@@ -170,13 +130,9 @@ function renderBigCard(pokeDetails, bigCardContainer, overlay) {
 function closeBigCard(event) {
     const overlay = document.getElementById('overlay');
     const bigCardContainer = document.getElementById('big-card-container');
-
-    // Schließe nur, wenn ins Overlay oder auf den Schließen-Button geklickt wurde
     if (event.target === overlay || event.target.classList.contains('close-button')) {
         overlay.style.display = 'none';
         bigCardContainer.innerHTML = '';
-
-        // Erlaube wieder das Scrollen
         document.body.style.overflow = 'auto';
     }
 }
@@ -184,25 +140,29 @@ function closeBigCard(event) {
 
 // Erstellt oder aktualisiert den "Load More"-Button
 function createLoadMoreButton() {
-    const buttonContainer = document.getElementById('buttonContainer'); // Container für den Button
+    const buttonContainer = document.getElementById('buttonContainer');
     if (!buttonContainer) {
         console.error('Button-Container nicht gefunden.');
         return;
     }
 
-    buttonContainer.innerHTML = ''; // Vorherigen Button entfernen, falls vorhanden
+    loadMoreBtn(counterPoke, buttonContainer);
+}
 
+
+
+function loadMoreBtn(counterPoke, buttonContainer) {
+    buttonContainer.innerHTML = '';
     const loadMoreButton = document.createElement('button');
     loadMoreButton.textContent = 'Mehr Pokémon laden';
-    loadMoreButton.id = `load-more-${counterPoke}`; // ID mit dem aktuellen Startpunkt
-    loadMoreButton.className = 'load-button'; // Standard Button
+    loadMoreButton.id = `load-more-${counterPoke}`;
+    loadMoreButton.className = 'load-button';
     loadMoreButton.onclick = () => {
-        // Beim Klick auf "Mehr Pokémon laden" den roten Button anzeigen
         showLoadingButton();
     };
-
     buttonContainer.appendChild(loadMoreButton);
 }
+
 
 // Zeigt den farbigen Button für 2 Sekunden an
 function showLoadingButton() {
@@ -323,125 +283,3 @@ async function searchPoke() {
         resultContainer.innerHTML = `<p>Ein Fehler ist aufgetreten. Bitte versuche es später erneut.</p>`;
     }
 }
-
-
-// async function searchPoke() {
-//     const query = getSearchQuery();
-//     const resultContainer = document.getElementById('content');
-//     const buttonContainer = document.getElementById('buttonContainer');
-
-//     clearContainer(buttonContainer);
-//     if (!isValidQuery(query)) {
-//         displayMessage(resultContainer, 'Gib bitte mindestens 3 Buchstaben ein.');
-//         return;
-//     }
-
-//     const apiUrl = `https://pokeapi.co/api/v2/pokemon?limit=1281`;
-//     try {
-//         const data = await fetchPokeData(apiUrl);
-//         const matches = filterMatches(data, query);
-
-//         if (matches.length === 0) {
-//             displayMessage(resultContainer, 'Keine Pokes mit deinen Kriterien gefunden.');
-//             return;
-//         }
-
-//         await displayMatches(matches, resultContainer);
-//     } catch (error) {
-//         handleError(resultContainer, error);
-//     }
-// }
-
-
-
-// function getSearchQuery() {
-//     const inputField = document.getElementById('searchPoke');
-//     return inputField.value.trim().toLowerCase();
-// }
-
-
-
-// function isValidQuery(query) {
-//     return query.length >= 3 && !/\d/.test(query);
-// }
-
-
-// function clearContainer(container) {
-//     if (container) container.innerHTML = '';
-// }
-
-
-
-// function displayMessage(container, message) {
-//     container.innerHTML = `<p>${message}</p>`;
-// }
-
-
-// async function fetchPokeData(apiUrl) {
-//     const response = await fetch(apiUrl);
-//     return response.json();
-// }
-
-
-
-// function filterMatches(data, query) {
-//     return data.results.filter(poke => poke.name.includes(query));
-// }
-
-
-
-// async function displayMatches(matches, container) {
-//     const limitedMatches = matches.slice(0, 20);
-//     const loadedPokes = [];
-//     let htmlContent = '';
-
-//     for (const match of limitedMatches) {
-//         const pokeDetails = await fetchPokeDetails(match.url);
-//         htmlContent += createCard(pokeDetails);
-//         loadedPokes.push(formatPokeDetails(pokeDetails));
-//     }
-
-//     container.innerHTML = htmlContent;
-// }
-
-
-
-// async function fetchPokeDetails(url) {
-//     return fetch(url).then(res => res.json());
-// }
-
-
-// function createCard(pokeDetails) {
-//     const formattedName = formatName(pokeDetails.name);
-//     const typeClass = `type-${pokeDetails.types[0].type.name}`;
-//     const typeHtml = getTypeIcons(pokeDetails.types);
-
-//     return `
-//         <div class="card-smal ${typeClass}" onclick="openBigCard(${pokeDetails.id})" id="poke-${pokeDetails.id}">
-//             <div class="card-header-smal">#${pokeDetails.id} ${formattedName}</div>
-//             <div class="card-img-smal-section">
-//                 <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
-//             </div>
-//             <div class="card-footer-smal">${typeHtml}</div>
-//         </div>
-//     `;
-// }
-
-
-
-// function formatName(name) {
-//     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-// }
-
-
-
-// function getTypeIcons(types) {
-//     return types.map(type => `<span class="type-icon">${type.type.name}</span>`).join(' ');
-// }
-
-
-
-// function handleError(container, error) {
-//     console.error('Fehler beim Abrufen der Daten:', error);
-//     displayMessage(container, 'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
-// }
