@@ -50,40 +50,36 @@ async function getPokefromApi(start = 0, limit = 20) {
 async function renderPokes(counterPoke) {
     const pokes = await getPokefromApi(counterPoke);
     const cardContainer = document.getElementById('content');
-
     if (!cardContainer) {
         console.error('Container mit ID "content" nicht gefunden.');
         return;
     }
-
     let htmlContent = '';
-
     for (let i = 0; i < pokes.length; i++) {
         const poke = pokes[i];
-
-        try {
-            const pokeDetails = await fetch(poke.url).then(res => res.json());
-
-            // Zum globalen Array hinzufügen
-            loadedPokes.push({
-                id: pokeDetails.id,
-                name: pokeDetails.name,
-                details: pokeDetails
-            });
-
-            // HTML für die Pokémon-Karte hinzufügen
-            htmlContent += renderPokeCardSmal(pokeDetails);
-        } catch (error) {
-            console.error(`Fehler beim Abrufen der Details für ${poke.name}:`, error);
-        }
+        htmlContent += await loadPoke(poke);
     }
-
-    // Füge die Karten in den Container ein
     cardContainer.innerHTML += htmlContent;
-
-    // Button für weitere Pokémon erstellen
     createLoadMoreButton();
 }
+
+
+// laden des Poke 
+async function loadPoke(poke) {
+    try {
+        const pokeDetails = await fetch(poke.url).then(res => res.json());
+        loadedPokes.push({
+            id: pokeDetails.id,
+            name: pokeDetails.name,
+            details: pokeDetails
+        });
+        return renderPokeCardSmal(pokeDetails);
+    } catch (error) {
+        console.error(`Fehler beim Abrufen der Details für ${poke.name}:`, error);
+        return '';
+    }
+}
+
 
 
 // Öffnet eine große Karte
@@ -94,30 +90,36 @@ function openBigCard(pokeId) {
 
     if (!smallCard) return;
 
-    // Prüfe, ob das Pokémon bereits in loadedPokes gespeichert ist
     const pokeDetails = loadedPokes.find(poke => poke.id === pokeId)?.details;
 
     if (pokeDetails) {
-        // Details direkt verwenden
         renderBigCard(pokeDetails, bigCardContainer, overlay);
     } else {
-        // Details aus der API laden
-        fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`)
-            .then(res => res.json())
-            .then(pokeDetails => {
-                // Optional: Zum globalen Array hinzufügen, falls nicht vorhanden
-                if (!loadedPokes.find(poke => poke.id === pokeId)) {
-                    loadedPokes.push({
-                        id: pokeDetails.id,
-                        name: pokeDetails.name,
-                        details: pokeDetails
-                    });
-                }
-                renderBigCard(pokeDetails, bigCardContainer, overlay);
-            })
-            .catch(error => console.error("Fehler beim Abrufen der Details der großen Karte:", error));
+        fetchRenderforBigCard(pokeId, bigCardContainer, overlay);
     }
 }
+
+
+async function fetchRenderforBigCard(pokeId, bigCardContainer, overlay) {
+    try {
+        const pokeDetails = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`).then(res => res.json());
+
+        // Hinzufügen zu loadedPokes, falls nicht vorhanden
+        if (!loadedPokes.find(poke => poke.id === pokeId)) {
+            loadedPokes.push({
+                id: pokeDetails.id,
+                name: pokeDetails.name,
+                details: pokeDetails
+            });
+        }
+
+        // Große Karte rendern
+        renderBigCard(pokeDetails, bigCardContainer, overlay);
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Details der großen Karte:", error);
+    }
+}
+
 
 // Hilfsfunktion für das Rendern der großen Karte
 function renderBigCard(pokeDetails, bigCardContainer, overlay) {
