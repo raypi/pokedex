@@ -1,0 +1,30 @@
+
+@media (min-width: 1920px) {
+    .content {
+        max-width: 1920px;
+        margin: 0 auto;
+    }
+}
+
+
+@media (min-width: 1440px) and (max-width: 1919px) {
+    .content {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+}
+
+
+@media (max-width: 600px) {
+    h1 {
+        display: none;
+    }
+
+    header {
+        flex-direction: column !important;
+    }
+
+    .big-card-container {
+        width: 280px;
+    }
+}
