@@ -274,19 +274,23 @@ async function searchPoke() {
     const resultContainer = document.getElementById('content');
     const query = getQuery();
     clearButtonContainer();
-    if (!isValidQuery(query)) {
-        showInvalidQueryMessage(resultContainer);
-        return;
-    }
-    const matches = await filterMatches(query);
-    if (matches.length === 0) {
-        displayNoMatchesFound(resultContainer);
-        return;
-    }
-    const limitedMatches = matches.slice(0, 20);
-    const { htmlContent, results } = await doSearchResults(limitedMatches);
+    
+    if (!isValidQuery(query)) return showInvalidQueryMessage(resultContainer);
+    
+    const matches = await getMatches(query);
+    if (matches.length === 0) return handleNoResults(resultContainer);
+
+    const { htmlContent, results } = await doSearchResults(matches.slice(0, 20));
     searchResults = results;
     resultContainer.innerHTML = htmlContent;
+}
+
+async function getMatches(query) {
+    return await filterMatches(query);
+}
+
+function handleNoResults(resultContainer) {
+    displayNoMatchesFound(resultContainer);
 }
 
 
@@ -294,9 +298,22 @@ async function searchPoke() {
 async function doSearchResults(matches) {
     let htmlContent = '';
     const results = [];
+
     for (const match of matches) {
-        let pokeDetails = loadedPokes.find(poke => poke.name === match.name)?.details;
-        if (!pokeDetails) {
+        const pokeDetails = await getOrFetchPokeDetails(match);
+        if (pokeDetails) {
+            htmlContent += pushResults(pokeDetails, results);
+        }
+    }
+
+    return { htmlContent, results };
+}
+
+
+async function getOrFetchPokeDetails(match) {
+    let pokeDetails = loadedPokes.find(poke => poke.name === match.name)?.details;
+    if (!pokeDetails) {
+        try {
             pokeDetails = await fetchPokeDetails(match.url);
             if (pokeDetails) {
                 loadedPokes.push({
@@ -305,17 +322,21 @@ async function doSearchResults(matches) {
                     details: pokeDetails,
                 });
             }
-        }
-        if (pokeDetails) {
-            results.push({
-                id: pokeDetails.id,
-                name: pokeDetails.name,
-                details: pokeDetails,
-            });
-            htmlContent += getSearchPokeHTML(pokeDetails);
+        } catch (error) {
+            console.error(`Fehler beim Abrufen der Details für ${match.name}:`, error);
+            return null;
         }
     }
-    return { htmlContent, results };
+    return pokeDetails;
 }
 
 
+function pushResults(pokeDetails, results) {
+    results.push({
+        id: pokeDetails.id,
+        name: pokeDetails.name,
+        details: pokeDetails,
+    });
+
+    return getSearchPokeHTML(pokeDetails);
+}
