@@ -1,13 +1,7 @@
-// Funktion zum Rendern einer kleinen Pokémon-Karte
 function renderPokeCardSmal(pokeDetails) {
-    // Name mit großem Anfangsbuchstaben formatieren
     const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
-
-    // Dynamische Typ-Klassen: Nur der erste Typ wird verwendet
     const mainType = pokeDetails.types[0].type.name;
     const typeClass = `type-${mainType}`;
-
-    // HTML für die Pokémon-Karte
     return `
         <div class="card-smal ${typeClass}" onclick="openBigCard(${pokeDetails.id})" id="poke-${pokeDetails.id}">
             <div class="card-header-smal">
@@ -28,8 +22,6 @@ function getBigCardHTML(pokeDetails) {
     const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
     const mainType = pokeDetails.types[0].type.name;
     const typeClass = `type-${mainType}`;
-
-    // HTML für die große Karte
     return `
         <div class="card-big ${typeClass}">
             <div class="card-header-big">
@@ -55,7 +47,6 @@ function getBigCardHTML(pokeDetails) {
         </div>
     `;
 }
-
 
 
 function getSearchPokeHTML(pokeDetails) {

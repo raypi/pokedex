@@ -1,4 +1,3 @@
-// Variablen
 let counterPoke = 0;
 let loadedPokes = [];
 let searchResults = [];
@@ -9,14 +8,11 @@ let AUDIO_SWIPE = new Audio('assets/audio/slider.mp3');
 let AUDIO_LOAD = new Audio('assets/audio/load.mp3');
 
 
-
-// Initialisiert die Anwendung
 function init() {
     renderPokes(counterPoke);
 }
 
 
-// Ruft Pokémon von der API ab
 async function getPokefromApi(start = 0, limit = 20) {
     const apiUrl = `https://pokeapi.co/api/v2/pokemon?offset=${start}&limit=${limit}`;
     try {
@@ -30,7 +26,6 @@ async function getPokefromApi(start = 0, limit = 20) {
 }
 
 
-// Bringt Pokémon ins HTML
 async function renderPokes(counterPoke) {
     const pokes = await getPokefromApi(counterPoke);
     const cardContainer = document.getElementById('content');
@@ -48,7 +43,6 @@ async function renderPokes(counterPoke) {
 }
 
 
-// laden des Poke 
 async function loadPoke(poke) {
     try {
         const pokeDetails = await fetch(poke.url).then(res => res.json());
@@ -65,14 +59,12 @@ async function loadPoke(poke) {
 }
 
 
-// Öffnet eine große Karte
 function openBigCard(pokeId) {
     const overlay = document.getElementById('overlay');
     const bigCardContainer = document.getElementById('big-card-container');
     const pokeDetails = 
         searchResults.find(poke => poke.id === pokeId)?.details || 
         loadedPokes.find(poke => poke.id === pokeId)?.details;
-
     if (pokeDetails) {
         renderBigCard(pokeDetails, bigCardContainer, overlay);
         AUDIO_BING.play();
@@ -80,7 +72,6 @@ function openBigCard(pokeId) {
         fetchRenderBigCard(pokeId, bigCardContainer, overlay);
     }
 }
-
 
 
 async function fetchRenderBigCard(pokeId, bigCardContainer, overlay) {
@@ -100,7 +91,6 @@ async function fetchRenderBigCard(pokeId, bigCardContainer, overlay) {
 }
 
 
-// Hilfsfunktion für das Rendern der großen Karte
 function renderBigCard(pokeDetails, bigCardContainer, overlay) {
     const bigCardHtml = getBigCardHTML(pokeDetails);
     bigCardContainer.innerHTML = bigCardHtml;
@@ -109,7 +99,6 @@ function renderBigCard(pokeDetails, bigCardContainer, overlay) {
 }
 
 
-// Schließt die große Karte bei Overlay und Button
 function closeBigCard(event) {
     const overlay = document.getElementById('overlay');
     const bigCardContainer = document.getElementById('big-card-container');
@@ -122,7 +111,6 @@ function closeBigCard(event) {
 }
 
 
-// Erstellt oder aktualisiert den "Load More"-Button
 function createLoadMoreButton() {
     const buttonContainer = document.getElementById('buttonContainer');
     if (!buttonContainer) {
@@ -148,14 +136,13 @@ function loadMoreBtn(counterPoke, buttonContainer) {
 }
 
 
-// Zeigt den farbigen Button für 2 Sekunden an
 function showLoadingButton() {
     const buttonContainer = document.getElementById('buttonContainer');
     const redButton = createButton(buttonContainer);
     setTimeout(() => delayButton(redButton, counterPoke), 2000);
 }
 
-// Hilfsfunktion: Erstellt und fügt einen Button ein
+
 function createButton(container) {
     container.innerHTML = '';
     const button = document.createElement('button');
@@ -167,7 +154,6 @@ function createButton(container) {
 }
 
 
-// Funktion für die dauer der Anzeige
 function delayButton(button, counter) {
     button.disabled = false;
     counterPoke = counter + 20;
@@ -184,6 +170,7 @@ function nextPoke(currentId) {
     AUDIO_SWIPE.play();
 }
 
+
 function lastPoke(currentId) {
     const currentList = searchResults.length > 0 ? searchResults : loadedPokes;
     const currentIndex = currentList.findIndex(poke => poke.id === currentId);
@@ -192,7 +179,6 @@ function lastPoke(currentId) {
     openBigCard(currentList[prevIndex].id);
     AUDIO_SWIPE.play();
 }
-
 
 
 async function fetchAndFilterPokes(query) {
@@ -285,14 +271,15 @@ async function searchPoke() {
     resultContainer.innerHTML = htmlContent;
 }
 
+
 async function getMatches(query) {
     return await filterMatches(query);
 }
 
+
 function handleNoResults(resultContainer) {
     displayNoMatchesFound(resultContainer);
 }
-
 
 
 async function doSearchResults(matches) {
