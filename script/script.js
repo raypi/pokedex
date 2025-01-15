@@ -1,6 +1,7 @@
 // Variablen
 let counterPoke = 0;
 let loadedPokes = [];
+let searchResults = [];
 let AUDIO_BING = new Audio('assets/audio/bing.mp3');
 let AUDIO_KEYPRESS = new Audio('assets/audio/keypress.mp3');
 let AUDIO_TRASH = new Audio('assets/audio/trash.mp3');
@@ -68,11 +69,9 @@ async function loadPoke(poke) {
 function openBigCard(pokeId) {
     const overlay = document.getElementById('overlay');
     const bigCardContainer = document.getElementById('big-card-container');
-    const smallCard = document.getElementById(`poke-${pokeId}`);
-
-    if (!smallCard) return;
-
-    const pokeDetails = loadedPokes.find(poke => poke.id === pokeId)?.details;
+    const pokeDetails = 
+        searchResults.find(poke => poke.id === pokeId)?.details || 
+        loadedPokes.find(poke => poke.id === pokeId)?.details;
 
     if (pokeDetails) {
         renderBigCard(pokeDetails, bigCardContainer, overlay);
@@ -81,6 +80,7 @@ function openBigCard(pokeId) {
         fetchRenderBigCard(pokeId, bigCardContainer, overlay);
     }
 }
+
 
 
 async function fetchRenderBigCard(pokeId, bigCardContainer, overlay) {
@@ -176,19 +176,23 @@ function delayButton(button, counter) {
 
 
 function nextPoke(currentId) {
-    const currentIndex = loadedPokes.findIndex(poke => poke.id === currentId);
-    let nextIndex = (currentIndex + 1) % loadedPokes.length;
-    openBigCard(loadedPokes[nextIndex].id);
+    const currentList = searchResults.length > 0 ? searchResults : loadedPokes;
+    const currentIndex = currentList.findIndex(poke => poke.id === currentId);
+    if (currentIndex === -1) return; // Sicherheitscheck
+    let nextIndex = (currentIndex + 1) % currentList.length;
+    openBigCard(currentList[nextIndex].id);
     AUDIO_SWIPE.play();
 }
-
 
 function lastPoke(currentId) {
-    const currentIndex = loadedPokes.findIndex(poke => poke.id === currentId);
-    let prevIndex = (currentIndex - 1 + loadedPokes.length) % loadedPokes.length;
-    openBigCard(loadedPokes[prevIndex].id);
+    const currentList = searchResults.length > 0 ? searchResults : loadedPokes;
+    const currentIndex = currentList.findIndex(poke => poke.id === currentId);
+    if (currentIndex === -1) return; // Sicherheitscheck
+    let prevIndex = (currentIndex - 1 + currentList.length) % currentList.length;
+    openBigCard(currentList[prevIndex].id);
     AUDIO_SWIPE.play();
 }
+
 
 
 async function fetchAndFilterPokes(query) {
@@ -280,6 +284,38 @@ async function searchPoke() {
         return;
     }
     const limitedMatches = matches.slice(0, 20);
-    const htmlContent = await createHtmlContent(limitedMatches);
+    const { htmlContent, results } = await doSearchResults(limitedMatches);
+    searchResults = results;
     resultContainer.innerHTML = htmlContent;
 }
+
+
+
+async function doSearchResults(matches) {
+    let htmlContent = '';
+    const results = [];
+    for (const match of matches) {
+        let pokeDetails = loadedPokes.find(poke => poke.name === match.name)?.details;
+        if (!pokeDetails) {
+            pokeDetails = await fetchPokeDetails(match.url);
+            if (pokeDetails) {
+                loadedPokes.push({
+                    id: pokeDetails.id,
+                    name: pokeDetails.name,
+                    details: pokeDetails,
+                });
+            }
+        }
+        if (pokeDetails) {
+            results.push({
+                id: pokeDetails.id,
+                name: pokeDetails.name,
+                details: pokeDetails,
+            });
+            htmlContent += getSearchPokeHTML(pokeDetails);
+        }
+    }
+    return { htmlContent, results };
+}
+
+
