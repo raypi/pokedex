@@ -6,6 +6,7 @@ let AUDIO_KEYPRESS = new Audio('assets/audio/keypress.mp3');
 let AUDIO_TRASH = new Audio('assets/audio/trash.mp3');
 let AUDIO_SWIPE = new Audio('assets/audio/slider.mp3');
 let AUDIO_LOAD = new Audio('assets/audio/load.mp3');
+let AUDIO_INTRO = new Audio('assets/audio/intro.mp3');
 
 
 function init() {
@@ -40,6 +41,7 @@ async function renderPokes(counterPoke) {
     }
     cardContainer.innerHTML += htmlContent;
     createLoadMoreButton();
+    AUDIO_INTRO.play();
 }
 
 
