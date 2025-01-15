@@ -3,9 +3,20 @@ button {
     color: var(--textWhite);
     width: var(--buttonWidth);
     height: var(--buttonHeight);
-    border-radius: var(--cardRadius);
     border: none;
     cursor: pointer;
+}
+
+
+input {
+    background-color: var(backgroundColorGray);
+    color: var(--textBlack);
+    width: var(--buttonWidth);
+    height: var(--buttonHeight);
+    border: none;
+    cursor: pointer;
+    padding-block: 0;
+    padding-inline: 0;
 }
 
 

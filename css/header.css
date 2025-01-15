@@ -1,10 +1,18 @@
 header {
     background-color: var(--backgroundColorOrange);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     height: var(--headerHeight);
+    width: 100vw;
     padding: var(--paddingMedium);
+
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
 }
 
 

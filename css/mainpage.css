@@ -1,13 +1,28 @@
 .main-contend {
-    flex: 1;
-    min-height: calc(100vh - var(--footerHeight) - var(--footerHeight) - (4 * var(--paddingMedium)));
+    min-height: calc(100vh - var(--footerHeight) - var(--footerHeight));
     padding: var(--paddingMedium);
     background-color: var(--backgroundColorGray);
+
+
 }
 
 
 .content-main {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: var(--paddingMedium);
+
+}
+
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    background-color: var(--backgroundColorGray);
+}
+
+
+.content {
+    min-height: 100vh;
 }

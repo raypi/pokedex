@@ -6,7 +6,6 @@ let AUDIO_KEYPRESS = new Audio('assets/audio/keypress.mp3');
 let AUDIO_TRASH = new Audio('assets/audio/trash.mp3');
 let AUDIO_SWIPE = new Audio('assets/audio/slider.mp3');
 let AUDIO_LOAD = new Audio('assets/audio/load.mp3');
-let AUDIO_INTRO = new Audio('assets/audio/intro.mp3');
 
 
 function init() {
@@ -19,7 +18,7 @@ async function getPokefromApi(start = 0, limit = 20) {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        return data.results; // Gibt eine Liste von Pokémon mit Name und URL zurück
+        return data.results;
     } catch (error) {
         console.error('Fehler beim Abrufen der Daten:', error);
         return [];
@@ -41,7 +40,6 @@ async function renderPokes(counterPoke) {
     }
     cardContainer.innerHTML += htmlContent;
     createLoadMoreButton();
-    AUDIO_INTRO.play();
 }
 
 
@@ -262,16 +260,19 @@ async function searchPoke() {
     const resultContainer = document.getElementById('content');
     const query = getQuery();
     clearButtonContainer();
-    
+    const searchInput = document.getElementById('searchPoke');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.placeholder = 'Poke suchen';
+    }
     if (!isValidQuery(query)) return showInvalidQueryMessage(resultContainer);
-    
     const matches = await getMatches(query);
     if (matches.length === 0) return handleNoResults(resultContainer);
-
     const { htmlContent, results } = await doSearchResults(matches.slice(0, 20));
     searchResults = results;
     resultContainer.innerHTML = htmlContent;
 }
+
 
 
 async function getMatches(query) {
@@ -328,4 +329,15 @@ function pushResults(pokeDetails, results) {
     });
 
     return getSearchPokeHTML(pokeDetails);
+}
+
+
+function reStart() {
+    loadedPokes = [];
+    searchResults = [];
+    const cardContainer = document.getElementById('content');
+    if (cardContainer) {
+        cardContainer.innerHTML = '';
+    }
+    renderPokes(counterPoke);
 }
