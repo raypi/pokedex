@@ -167,6 +167,8 @@ function nextPoke(currentId) {
     if (currentIndex === -1) return; // Sicherheitscheck
     let nextIndex = (currentIndex + 1) % currentList.length;
     openBigCard(currentList[nextIndex].id);
+    AUDIO_SWIPE.pause();
+    AUDIO_SWIPE.currentTime = 0;
     AUDIO_SWIPE.play();
 }
 
@@ -177,6 +179,8 @@ function lastPoke(currentId) {
     if (currentIndex === -1) return; // Sicherheitscheck
     let prevIndex = (currentIndex - 1 + currentList.length) % currentList.length;
     openBigCard(currentList[prevIndex].id);
+    AUDIO_SWIPE.pause();
+    AUDIO_SWIPE.currentTime = 0;
     AUDIO_SWIPE.play();
 }
 
