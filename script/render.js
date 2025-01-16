@@ -72,48 +72,7 @@
 // }
 
 
-function getSearchPokeHTML(pokeDetails) {
-    const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
-    const mainType = pokeDetails.types[0].type.name; // Haupt-Typ
-    const typeClass = `type-${mainType}`; // Klasse aus Typ erstellen
-
-    return `
-        <div class="card-smal ${typeClass}" onclick="openBigCard(${pokeDetails.id})" id="poke-${pokeDetails.id}">
-            <div class="card-header-smal">
-                #${pokeDetails.id} ${formattedName}
-            </div>
-            <div class="card-img-smal-section">
-                <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
-            </div>
-            <div class="card-footer-smal">
-                ${pokeDetails.types.map(typeInfo => `<span class="type-icon">${typeInfo.type.name}</span>`).join(' ')}
-            </div>
-        </div>
-    `;
-}
-
 function renderPokeCardSmal(pokeDetails) {
-    const typeColors = {
-        normal: '#A8A878',
-        fire: '#F08030',
-        water: '#6890F0',
-        grass: '#78C850',
-        electric: '#F8D030',
-        ice: '#98D8D8',
-        fighting: '#C03028',
-        poison: '#A040A0',
-        ground: '#E0C068',
-        flying: '#A890F0',
-        psychic: '#F85888',
-        bug: '#A8B820',
-        rock: '#B8A038',
-        ghost: '#705898',
-        dragon: '#7038F8',
-        dark: '#705848',
-        steel: '#B8B8D0',
-        fairy: '#F8A0F0',
-    };
-
     const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
     const mainType = pokeDetails.types[0].type.name;
     const secondaryType = pokeDetails.types[1]?.type.name;
@@ -141,27 +100,6 @@ function renderPokeCardSmal(pokeDetails) {
 }
 
 function getBigCardHTML(pokeDetails) {
-    const typeColors = {
-        normal: '#A8A878',
-        fire: '#F08030',
-        water: '#6890F0',
-        grass: '#78C850',
-        electric: '#F8D030',
-        ice: '#98D8D8',
-        fighting: '#C03028',
-        poison: '#A040A0',
-        ground: '#E0C068',
-        flying: '#A890F0',
-        psychic: '#F85888',
-        bug: '#A8B820',
-        rock: '#B8A038',
-        ghost: '#705898',
-        dragon: '#7038F8',
-        dark: '#705848',
-        steel: '#B8B8D0',
-        fairy: '#F8A0F0',
-    };
-
     const formattedName = pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1).toLowerCase();
     const mainType = pokeDetails.types[0].type.name;
     const secondaryType = pokeDetails.types[1]?.type.name;
