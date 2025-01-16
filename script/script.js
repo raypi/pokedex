@@ -260,22 +260,43 @@ async function filterMatches(query) {
 }
 
 
+// async function searchPoke() {
+//     const resultContainer = document.getElementById('content');
+//     const query = getQuery();
+//     clearButtonContainer();
+//     const searchInput = document.getElementById('searchPoke');
+//     if (searchInput) {
+//         searchInput.value = '';
+//         searchInput.placeholder = 'Poke suchen';
+//     }
+//     if (!isValidQuery(query)) return showInvalidQueryMessage(resultContainer);
+//     const matches = await getMatches(query);
+//     if (matches.length === 0) return handleNoResults(resultContainer);
+//     const { htmlContent, results } = await doSearchResults(matches.slice(0, 20));
+//     searchResults = results;
+//     resultContainer.innerHTML = htmlContent;
+// }
+
+
 async function searchPoke() {
     const resultContainer = document.getElementById('content');
     const query = getQuery();
     clearButtonContainer();
-    const searchInput = document.getElementById('searchPoke');
-    if (searchInput) {
-        searchInput.value = '';
-        searchInput.placeholder = 'Poke suchen';
+    console.log('Query:', query); // Debugging: Zeigt die Suchanfrage an
+    if (!isValidQuery(query)) {
+        console.error('Invalid query:', query);
+        return showInvalidQueryMessage(resultContainer);
     }
-    if (!isValidQuery(query)) return showInvalidQueryMessage(resultContainer);
     const matches = await getMatches(query);
+    console.log('Matches:', matches); // Debugging: Zeigt gefundene Matches an
     if (matches.length === 0) return handleNoResults(resultContainer);
+
     const { htmlContent, results } = await doSearchResults(matches.slice(0, 20));
+    console.log('Search Results:', results); // Debugging: Zeigt die Ergebnisse an
     searchResults = results;
     resultContainer.innerHTML = htmlContent;
 }
+
 
 
 
@@ -289,19 +310,39 @@ function handleNoResults(resultContainer) {
 }
 
 
+// async function doSearchResults(matches) {
+//     let htmlContent = '';
+//     const results = [];
+
+//     for (const match of matches) {
+//         const pokeDetails = await getOrFetchPokeDetails(match);
+//         if (pokeDetails) {
+//             htmlContent += pushResults(pokeDetails, results);
+//         }
+//     }
+
+//     return { htmlContent, results };
+// }
+
+
 async function doSearchResults(matches) {
+    console.log('Processing matches:', matches);
     let htmlContent = '';
     const results = [];
 
     for (const match of matches) {
         const pokeDetails = await getOrFetchPokeDetails(match);
         if (pokeDetails) {
+            console.log('Poke details fetched:', pokeDetails);
             htmlContent += pushResults(pokeDetails, results);
+        } else {
+            console.error('Failed to fetch details for match:', match);
         }
     }
 
     return { htmlContent, results };
 }
+
 
 
 async function getOrFetchPokeDetails(match) {

@@ -136,3 +136,30 @@ function getBigCardHTML(pokeDetails) {
         </div>
     `;
 }
+
+
+function getSearchPokeHTML(pokeDetails) {
+    const mainType = pokeDetails.types[0].type.name;
+    const secondaryType = pokeDetails.types[1]?.type.name;
+
+    const mainColor = typeColors[mainType] || '#FFFFFF'; // Fallback auf Weiß
+    const secondaryColor = secondaryType ? typeColors[secondaryType] : null;
+
+    const backgroundStyle = secondaryColor
+        ? `background: linear-gradient(135deg, ${mainColor}, ${secondaryColor});`
+        : `background-color: ${mainColor};`;
+
+    return `
+        <div class="card-smal" style="${backgroundStyle}" onclick="openBigCard(${pokeDetails.id})" id="poke-${pokeDetails.id}">
+            <div class="card-header-smal">
+                #${pokeDetails.id} ${pokeDetails.name.charAt(0).toUpperCase() + pokeDetails.name.slice(1)}
+            </div>
+            <div class="card-img-smal-section">
+                <img src="${pokeDetails.sprites.front_default}" alt="${pokeDetails.name}" class="card-img-smal">
+            </div>
+            <div class="card-footer-smal">
+                ${pokeDetails.types.map(typeInfo => `<span class="type-icon">${typeInfo.type.name}</span>`).join(' ')}
+            </div>
+        </div>
+    `;
+}

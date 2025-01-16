@@ -31,6 +31,22 @@
     }    
 }
 
+@media (min-width: 800px) and (max-width: 1439px) {
+    .header-content {
+        width: 800px;
+    }
+    .main-contend {
+        width: 800px;
+    }
+    .footer-content{
+        width: 800px;
+    }
+    .button-container{
+        width: 800px;
+    }    
+}
+
+
 
 @media (max-width: 600px) {
     h1 {
